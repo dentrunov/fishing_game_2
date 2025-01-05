@@ -1,14 +1,9 @@
 from game import *
+from settings import *
 
-# import pygame as pg
-# import time
-# настройки окна
-WIDTH = 1200
-HEIGHT = 800
-MAX_HEIGHT = 300
-FPS = 30
-COLOR = (240, 240, 240)
-BLACK = (0, 0, 0)
+from datetime import datetime
+
+
 pg.init()
 
 background = pg.image.load("back.jpg")
@@ -17,7 +12,7 @@ background = pg.transform.scale(background, (WIDTH, HEIGHT-50))
 clock = pg.time.Clock()
 
 screen = pg.display.set_mode((WIDTH, HEIGHT))
-screen.fill(COLOR)
+screen.fill(COLOR_FILL)
 pg.display.set_caption('Рыбалка')
 
 #удочка
@@ -42,11 +37,12 @@ set_text('Начало игры')
 
 def fish_generate():
     ''' генерация клева рыбы '''
-    chance = [0] * 100 + [1]
+    chance = [0] * 1000 + [1]
     if choice(chance):
         f = Fish(*choice(fish_names))
-        print(f'{f.name} {f.size} г. клюёт в {time.time()}')
-        set_text(f'{f.name} {f.size} г. клюёт в {time.time()}')
+        tm = datetime.now()
+        print(f'{f.name} {f.size} г. клюёт в {tm}')
+        set_text(f'{f.name} {f.size} г. клюёт в {tm}')
         return f
     return False
 
@@ -87,19 +83,20 @@ while game_over:
         if event.type == pg.KEYDOWN:
             # достаем и убираем удочку
             if event.key == pg.K_1:
-                if not (rod.active):
-                    rod.active = rod.usable = True
-                    rod.down = True
-                    rod_x = WIDTH // 2
-                    rod_y = 300
-                    rod.pop.image = pg.transform.scale(rod.pop.image, (10, 40))
+                rod_x, ros_y = rod.get()
+                # if not (rod.active):
+                #     rod.active = rod.usable = True
+                #     rod.down = True
+                #     rod_x = WIDTH // 2
+                #     rod_y = 300
+                #     rod.pop.image = pg.transform.scale(rod.pop.image, (10, 40))
 
-                else:
-                    rod.active = rod.usable = False
-                    rod.down = True
-                    rod_x = -10000
-                    rod_y = -10000
-                    pop_x, pop_y = (-10000, -10000)
+                # else:
+                #     rod.active = rod.usable = False
+                #     rod.down = True
+                #     rod_x = -10000
+                #     rod_y = -10000
+                #     pop_x, pop_y = (-10000, -10000)
 
             if event.key == pg.K_SPACE:
                 if rod.active and rod.down:

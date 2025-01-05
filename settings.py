@@ -1,0 +1,7 @@
+# настройки окна
+WIDTH = 1200
+HEIGHT = 800
+MAX_HEIGHT = 300
+FPS = 30
+COLOR_FILL = (240, 240, 240)
+BLACK = (0, 0, 0)
