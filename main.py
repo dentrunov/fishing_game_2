@@ -28,6 +28,7 @@ all_sprites = pg.sprite.Group()
 
 def set_text(txt):
     '''функция подготовки текста'''
+    screen.fill(COLOR_FILL)
     text_field = f1.render(txt, True, BLACK)
     screen.blit(text_field, (10, HEIGHT - 40))
 
@@ -106,7 +107,6 @@ while game_over:
         else:
             pop_move__, last_move, fish_activity_time = pop_move(pop_y, new_fish, last_move, fish_activity_time)
             pop_y = pop_move__
-
     screen.blit(background, (0, 0))  # отрисовка фона
     screen.blit(rod.image, (rod_x, rod_y))  # отрисовка удочки
     screen.blit(rod.pop.image, (pop_x, pop_y))  # отрисовка поплавка
