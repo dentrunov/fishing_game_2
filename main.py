@@ -95,16 +95,6 @@ while game_over:
                 pop_coords, rod_coords = rod.put(*event.pos)
                 pop_x, pop_y = pop_coords
                 rod_x, rod_y = rod_coords
-                # if rod.active:
-        #             pop_x, pop_y = event.pos
-        #             if pop_x < 5: pop_x = 5
-        #             if pop_x > WIDTH - 5: pop_x = WIDTH - 5
-        #             if pop_y < MAX_HEIGHT: pop_y = MAX_HEIGHT
-        #             if pop_y > HEIGHT - 5: pop_y = HEIGHT - 5
-        #             if pop_x < WIDTH - 200:
-        #                 rod_x = pop_x + 50
-        #             else:
-        #                 rod_x = pop_x  - 50
 
     #поклевка
     # if all((rod.down, rod.active, rod.usable)):
