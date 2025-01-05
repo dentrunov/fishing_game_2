@@ -85,14 +85,17 @@ while game_over:
             if event.key == pg.K_1:
                 rod_x, rod_y = rod.get(*pg.mouse.get_pos())
 
-            # if event.key == pg.K_SPACE:
-            #     if rod.active and rod.down:
-            #         rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
-            #         rod.down = False
-        # if event.type == pg.MOUSEBUTTONDOWN:
-        #     # заброс удочки
-        #     if event.button == 1:
-        #         if rod.active:
+            if event.key == pg.K_SPACE:
+                if rod.active and rod.down:
+                    rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
+                    rod.down = False
+        if event.type == pg.MOUSEBUTTONDOWN:
+            # заброс удочки
+            if event.button == 1:
+                pop_coords, rod_coords = rod.put(*event.pos)
+                pop_x, pop_y = pop_coords
+                rod_x, rod_y = rod_coords
+                # if rod.active:
         #             pop_x, pop_y = event.pos
         #             if pop_x < 5: pop_x = 5
         #             if pop_x > WIDTH - 5: pop_x = WIDTH - 5
@@ -115,7 +118,7 @@ while game_over:
 
     screen.blit(background, (0, 0))  # отрисовка фона
     screen.blit(rod.image, (rod_x, rod_y))  # отрисовка удочки
-    # screen.blit(rod.pop.image, (pop_x, pop_y))  # отрисовка поплавка
+    screen.blit(rod.pop.image, (pop_x, pop_y))  # отрисовка поплавка
 
     # all_sprites.draw(screen)
     pg.display.update()
