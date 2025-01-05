@@ -10,11 +10,16 @@ class Fish:
     '''рыбы'''
     def __init__(self, name, min_size=1, max_size=10000, frequency=50, heaviness=50):
         self.name = name
-        self.min_size = min_size
-        self.max_size = max_size
-        self.size = randint(self.min_size, self.max_size)
+        self.__min_size = min_size
+        self.__max_size = max_size
+        self.__size = randint(self.__min_size, self.__max_size)
         self.frequency = frequency #частотность рыбы в водоеме??? в процентах, меньше - чаще
         self.heaviness = heaviness #сложность вылавливания рыбы, меньше - сложнее, нужно для схода при поклевке
+
+    @property
+    def size(self):
+        return self.__size
+    
 
     def eat(self):
         pass
@@ -42,24 +47,24 @@ class Rod(pg.sprite.Sprite):
         self.usable = False #заброшена
         self.down = True #подсеченная - False
         # self.image = pg.Surface('rod.png')
-        self.image = pg.image.load('rod.png')
+        self.image = pg.transform.scale(pg.image.load('rod.png'), (10, 400))
         self.pop = Pop()
     
-    def get(self):
+    def get(self, mouse_x, mouse_y):
         # self.active = not(self.active)
         if not (self.active):
             self.active = self.usable = True
-            self.down = True
-            rod_x = WIDTH // 2
-            rod_y = 300
+            # self.down = True
+            rod_x = mouse_x
+            rod_y = 350
             self.pop.image = pg.transform.scale(self.pop.image, (10, 40))
 
         else:
             self.active = self.usable = False
-            self.down = True
+            # self.down = True
             rod_x = -10000
             rod_y = -10000
-            pop_x, pop_y = (-10000, -10000)
+            # pop_x, pop_y = (-10000, -10000)
         return rod_x, rod_y
 
     def put(self):
@@ -103,9 +108,10 @@ if __name__ == '__main__':
     rod = Rod()
     while True:
         f = choice(fish_classes)
+        f.size =randint(f.min_size, f.max_size)
         chance = [0] * f.frequency + [1]
         if choice(chance):
-            print(f.name, f.set_size(randint(f.min_size, f.max_size)), 'клюёт')
+            print(f.name, f.size, 'клюёт')
         else:
             continue
 
