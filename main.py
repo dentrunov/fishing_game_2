@@ -92,25 +92,25 @@ while game_over:
         if event.type == pg.MOUSEBUTTONDOWN:
             # заброс удочки
             if event.button == 1:
-                pop_coords, rod_coords = rod.put(*event.pos)
-                pop_x, pop_y = pop_coords
-                rod_x, rod_y = rod_coords
+                if rod.active:
+                    pop_coords, rod_coords = rod.put(*event.pos)
+                    pop_x, pop_y = pop_coords
+                    rod_x, rod_y = rod_coords
 
-    #поклевка
-    # if all((rod.down, rod.active, rod.usable)):
-    #     if not new_fish:
-    #         new_fish = fish_generate()
-    #         last_move = 1
-    #         fish_activity_time = time.time()
-    #     else:
-    #         pop_move__, last_move, fish_activity_time = pop_move(pop_y, new_fish, last_move, fish_activity_time)
-    #         pop_y = pop_move__
+    # поклевка
+    if all((rod.down, rod.active, rod.usable)):
+        if not new_fish:
+            new_fish = fish_generate()
+            last_move = 1
+            fish_activity_time = time.time()
+        else:
+            pop_move__, last_move, fish_activity_time = pop_move(pop_y, new_fish, last_move, fish_activity_time)
+            pop_y = pop_move__
 
     screen.blit(background, (0, 0))  # отрисовка фона
     screen.blit(rod.image, (rod_x, rod_y))  # отрисовка удочки
     screen.blit(rod.pop.image, (pop_x, pop_y))  # отрисовка поплавка
 
-    # all_sprites.draw(screen)
     pg.display.update()
     clock.tick(FPS)
 

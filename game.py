@@ -70,7 +70,7 @@ class Rod(pg.sprite.Sprite):
         '''заброс'''
         if not self.usable:
             self.usable = True
-
+        mouse_y -= 35
         if mouse_x < 5: mouse_x = 5
         if mouse_x > WIDTH - 5: mouse_x = WIDTH - 5
         if mouse_y < MAX_HEIGHT: mouse_y = MAX_HEIGHT
