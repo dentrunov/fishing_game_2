@@ -19,7 +19,6 @@ class Fish:
     @property
     def size(self):
         return self.__size
-    
 
     def eat(self):
         pass
@@ -27,6 +26,9 @@ class Fish:
     def __del__(self):
         print('Рыба сброшена')
         pass
+
+    def __repr__(self):
+        return f"Рыба {self.name}, {self.size}"
 
 fish_names = [
     ['Карась', 100, 1000, 100, 70],
@@ -50,6 +52,7 @@ class Rod(pg.sprite.Sprite):
         self.image = pg.transform.scale(pg.image.load('rod.png'), (10, 400))
         self.pop = Pop()
         self.coords = [-1000, 1000]
+        self.new_fish = None
     
     def get(self, mouse_x, mouse_y):
         """ Достаем удилище """
@@ -107,9 +110,23 @@ class Pop(pg.sprite.Sprite):
         # self.image = pg.Surface('rod.png')
         self.image = pg.image.load('pop.png')
         self.coords = [-1000, 1000]
+        self.size = (10, 20)
+        self.__last_move = 1
     
-    def get_fish(self, x):
-        rod.pop.image = pg.transform.scale(rod.pop.image, x)
+    @property
+    def last_move(self):
+        return self.__last_move
+    
+    @last_move.setter
+    def last_move(self, x):
+        self.__last_move = x
+        print(222, self.__last_move)
+
+    def transform(self, x):
+        self.size = x
+        # self.last_move = 1
+        self.coords[0] += self.size[1] - x[1] 
+        self.image = pg.transform.scale(self.image, x)
 
 
 

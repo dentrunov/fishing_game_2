@@ -39,15 +39,16 @@ def fish_generate():
     chance = [0] * 1000 + [1]
     if choice(chance):
         f = Fish(*choice(fish_names))
-        rod.pop.image = pg.transform.scale(rod.pop.image, (10, 20))  
+        rod.pop.transform((10, 20))
+        # rod.pop.image = pg.transform.scale(rod.pop.image, (10, 20))  
         # rod.pop.coords = [rod.pop.coords[0], rod.pop.coords[1] - 20]
         tm = datetime.now()
         print(f'{f.name} {f.size} г. клюёт в {tm}')
         set_text(f'{f.name} {f.size} г. клюёт в {tm}')
         return f
-    return False
+    # return False
 
-def pop_move(y, fish, last_move, fish_activity_time):
+def pop_move(fish, fish_activity_time):
     '''анимация поклевки'''
     if rod.down:
         #генерируем паузу поклевки
@@ -55,28 +56,31 @@ def pop_move(y, fish, last_move, fish_activity_time):
             # просчитываем прекращение клёва
             if not choice([1] * fish.heaviness * 10 + [0]):
                 # переделать на ООП
-                global new_fish
-                new_fish = 0
+                # global new_fish
+                # new_fish = 0
                 print('Перестала клевать')
                 set_text('Перестала клевать')
-                return y, last_move, fish_activity_time
-
-            if last_move == 1:
-                last_move = 0
-                y += 2
-            else:
-                last_move = 1
-                y -= 2
-            if y < MAX_HEIGHT: y = MAX_HEIGHT
-            if y > HEIGHT - 5: y = HEIGHT - 5
+                # return y, fish_activity_time
+                return None
+            y = rod.pop.last_move * 2
+            rod.pop.last_move *= -1
+            # if last_move == 1:
+            #     last_move = 0
+            #     y = 2
+            # else:
+            #     last_move = 1
+            #     y = -2
+            # if y < MAX_HEIGHT: y = MAX_HEIGHT
+            # if y > HEIGHT - 5: y = HEIGHT - 5
+            rod.pop.transform((rod.pop.size[0], rod.pop.size[1] + y))
+            rod.pop.coords[1] -= y
             fish_activity_time = time.time()
 
-    return y, last_move, fish_activity_time
+    return fish_activity_time
 
 
 #игровой цикл
 game_over = True
-new_fish = False
 while game_over:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -101,15 +105,13 @@ while game_over:
                     rod.put(*event.pos)
 
     # поклевка
-    # if all((rod.down, rod.active, rod.usable)):
-    #     if not new_fish:
-    #         new_fish = fish_generate() 
-    #         rod_x, rod_y = rod.pop.coords
-    #         last_move = 1
-    #         fish_activity_time = time.time()
-    #     else:
-    #         pop_move__, last_move, fish_activity_time = pop_move(pop_y, new_fish, last_move, fish_activity_time)
-    #         pop_y = pop_move__
+    if all((rod.down, rod.active, rod.usable)):
+        if rod.new_fish is None:
+            rod.new_fish = fish_generate()
+            fish_activity_time = time.time()
+        else:
+            fish_activity_time = pop_move(rod.new_fish, fish_activity_time)
+            # rod.pop.coords[1] = pop_move__
     
     # Отрисовка окна
     screen.blit(background, (0, 0))  # отрисовка фона
