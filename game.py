@@ -49,9 +49,10 @@ class Rod(pg.sprite.Sprite):
         # self.image = pg.Surface('rod.png')
         self.image = pg.transform.scale(pg.image.load('rod.png'), (10, 400))
         self.pop = Pop()
-        self.coords = [None, None]
+        self.coords = [-1000, 1000]
     
     def get(self, mouse_x, mouse_y):
+        """ Достаем удилище """
         # self.active = not(self.active)
         if not (self.active):
             self.active = True
@@ -70,7 +71,7 @@ class Rod(pg.sprite.Sprite):
         '''заброс'''
         if not self.usable:
             self.usable = True
-        mouse_y -= 35
+        # mouse_y -= 35
         if mouse_x < 5: mouse_x = 5
         if mouse_x > WIDTH - 5: mouse_x = WIDTH - 5
         if mouse_y < MAX_HEIGHT: mouse_y = MAX_HEIGHT
@@ -80,7 +81,7 @@ class Rod(pg.sprite.Sprite):
         else:
             self.coords[0] = mouse_x - 50
 
-        self.pop.coords = mouse_x, mouse_y
+        self.pop.coords = [mouse_x, mouse_y]
         return self.pop.coords, self.coords
         
 
@@ -100,7 +101,7 @@ class Pop(pg.sprite.Sprite):
         self.usable = False
         # self.image = pg.Surface('rod.png')
         self.image = pg.image.load('pop.png')
-        self.coords = (None, None)
+        self.coords = [-1000, 1000]
 
 
 
