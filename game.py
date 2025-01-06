@@ -84,6 +84,11 @@ class Rod(pg.sprite.Sprite):
         self.pop.coords = [mouse_x, mouse_y]
         return self.pop.coords, self.coords
         
+    def get_fish(self):
+        """Подсечка"""
+        self.pop.transform((10,10))
+        # rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
+        self.down = False
 
     def push(self, fish):
         if self.active:
@@ -102,6 +107,9 @@ class Pop(pg.sprite.Sprite):
         # self.image = pg.Surface('rod.png')
         self.image = pg.image.load('pop.png')
         self.coords = [-1000, 1000]
+    
+    def get_fish(self, x):
+        rod.pop.image = pg.transform.scale(rod.pop.image, x)
 
 
 

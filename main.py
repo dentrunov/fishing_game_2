@@ -90,8 +90,9 @@ while game_over:
             if event.key == pg.K_SPACE:
                 #подсечка TODO
                 if rod.active and rod.down:
-                    rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
-                    rod.down = False
+                    rod.get_fish()
+                    # rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
+                    # rod.down = False
 
         if event.type == pg.MOUSEBUTTONDOWN:
             # заброс удочки
