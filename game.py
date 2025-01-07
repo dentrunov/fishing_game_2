@@ -90,7 +90,7 @@ class Rod(pg.sprite.Sprite):
     def get_fish(self):
         """Подсечка"""
         self.pop.transform((10,10))
-        # rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
+        self.pop.coords[1] += 10
         self.down = False
 
     def push(self, fish):
