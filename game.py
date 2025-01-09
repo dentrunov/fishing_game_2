@@ -106,9 +106,16 @@ class Rod(pg.sprite.Sprite):
 
     def roll(self):
         """Подкручивание катушки"""
-        self.pop.coords[1] += 2
-        if self.pop.coords[1] > MAX_HEIGHT and not self.down:
-            self.catch_fish()
+        print(self.pop.coords[1])
+        if self.pop.coords[1] < HEIGHT - 100: #TODO пересмотреть ограничение по береговой линии
+            print(2)
+            self.pop.coords[1] += 2
+        else:
+            if not self.down:
+                 self.catch_fish()
+            else:
+                return
+        
 
     def catch_fish(self):
         self.usable = False
