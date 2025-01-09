@@ -106,9 +106,7 @@ class Rod(pg.sprite.Sprite):
 
     def roll(self):
         """Подкручивание катушки"""
-        print(self.pop.coords[1])
         if self.pop.coords[1] < HEIGHT - 100: #TODO пересмотреть ограничение по береговой линии
-            print(2)
             self.pop.coords[1] += 2
         else:
             if not self.down:
