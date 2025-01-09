@@ -1,7 +1,7 @@
 import pygame as pg
 
 from random import randint, choice, uniform
-import time, os, keyboard
+import time, os
 
 from settings import *
 
