@@ -101,6 +101,17 @@ class Rod(pg.sprite.Sprite):
             else:
                 print('Сорвалась')
 
+    def roll(self):
+        """Подкручивание катушки"""
+        self.pop.coords[1] += 2
+        if self.pop.coords[1] > MAX_HEIGHT and not self.down:
+            self.catch_fish()
+
+    def catch_fish(self):
+        self.usable = False
+        self.down = True
+        print(f'Рыба {self.new_fish} поймана')
+
 class Pop(pg.sprite.Sprite):
     '''поплавки'''
     def __init__(self):
@@ -120,7 +131,6 @@ class Pop(pg.sprite.Sprite):
     @last_move.setter
     def last_move(self, x):
         self.__last_move = x
-        print(222, self.__last_move)
 
     def transform(self, x):
         self.size = x

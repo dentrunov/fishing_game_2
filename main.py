@@ -92,7 +92,7 @@ while game_over:
                 rod.get(*pg.mouse.get_pos())
 
             if event.key == pg.K_SPACE:
-                #подсечка TODO
+                #подсечка
                 if rod.active and rod.down:
                     rod.get_fish()
 
@@ -109,8 +109,14 @@ while game_over:
             fish_activity_time = time.time()
         else:
             fish_activity_time = pop_move(rod.new_fish, fish_activity_time)
-            # rod.pop.coords[1] = pop_move__
     
+    keys = pg.key.get_pressed()
+    if keys[pg.K_f]:
+        if rod.new_fish and rod.down:
+            continue
+        else:
+            rod.roll()
+
     # Отрисовка окна
     screen.blit(background, (0, 0))  # отрисовка фона
     screen.blit(rod.image, rod.coords) # отрисовка удочки
