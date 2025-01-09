@@ -55,9 +55,7 @@ def pop_move(fish, fish_activity_time):
         if time.time() - fish_activity_time > uniform(0.0, 2.0):
             # просчитываем прекращение клёва
             if not choice([1] * fish.heaviness * 10 + [0]):
-                # переделать на ООП
-                # global new_fish
-                # new_fish = 0
+
                 print('Перестала клевать')
                 set_text('Перестала клевать')
                 # return y, fish_activity_time
