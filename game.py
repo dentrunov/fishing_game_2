@@ -61,7 +61,7 @@ class Rod(pg.sprite.Sprite):
         if not (self.active):
             self.active = True
             self.coords = [mouse_x, 350]
-            self.pop.image = pg.transform.scale(self.pop.image, (10, 40))
+            self.pop.image = pg.transform.scale(self.pop.pop, (10, 40))
 
         else:
             self.active = self.usable = False
@@ -75,6 +75,8 @@ class Rod(pg.sprite.Sprite):
         '''заброс'''
         if not self.usable:
             self.usable = True
+        self.down = True
+        self.new_fish = None
         # mouse_y -= 35
         if mouse_x < 5: mouse_x = 5
         if mouse_x > WIDTH - 5: mouse_x = WIDTH - 5
@@ -86,7 +88,7 @@ class Rod(pg.sprite.Sprite):
             self.coords[0] = mouse_x - 50
 
         self.pop.coords = [mouse_x, mouse_y]
-        self.pop.image = pg.transform.scale(self.pop.image, (10, 40))
+        self.pop.image = pg.transform.scale(self.pop.pop, (10, 40))
         return self.pop.coords, self.coords
         
     def get_fish(self):
@@ -97,6 +99,7 @@ class Rod(pg.sprite.Sprite):
         
 
     def push(self, fish):
+        """ TODO сделать """
         if self.active:
             if randint((0,1)):
                 self.fish = fish
@@ -119,7 +122,7 @@ class Rod(pg.sprite.Sprite):
         self.usable = False
         self.down = True
         print(f'Рыба {self.new_fish} поймана')
-
+        self.new_fish = None
 
 class Pop(pg.sprite.Sprite):
     '''поплавки'''
@@ -128,7 +131,8 @@ class Pop(pg.sprite.Sprite):
         self.active = False
         self.usable = False
         # self.image = pg.Surface('rod.png')
-        self.image = pg.image.load('pop.png')
+        self.pop = pg.image.load('pop.png')
+        self.image = self.pop
         self.coords = [-1000, 1000]
         self.size = (10, 20)
         self.__last_move = 1
