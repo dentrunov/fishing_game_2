@@ -1,7 +1,7 @@
 import pygame as pg
 
 from random import randint, choice, uniform
-import time, os, keyboard
+import time, os
 
 from settings import *
 
@@ -36,6 +36,7 @@ fish_names = [
     ]
 
 fish_classes = [Fish('Карась', 100, 1000, 100), Fish('Карп', 300, 3000, 300)]
+
 
 class Rod(pg.sprite.Sprite):
     '''удилища'''
@@ -85,6 +86,7 @@ class Rod(pg.sprite.Sprite):
             self.coords[0] = mouse_x - 50
 
         self.pop.coords = [mouse_x, mouse_y]
+        self.pop.image = pg.transform.scale(self.pop.image, (10, 40))
         return self.pop.coords, self.coords
         
     def get_fish(self):
@@ -92,6 +94,7 @@ class Rod(pg.sprite.Sprite):
         self.pop.transform((10,10))
         self.pop.coords[1] += 10
         self.down = False
+        
 
     def push(self, fish):
         if self.active:
@@ -111,6 +114,7 @@ class Rod(pg.sprite.Sprite):
         self.usable = False
         self.down = True
         print(f'Рыба {self.new_fish} поймана')
+
 
 class Pop(pg.sprite.Sprite):
     '''поплавки'''
