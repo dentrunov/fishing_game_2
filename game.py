@@ -116,12 +116,13 @@ class Rod(pg.sprite.Sprite):
                  self.catch_fish()
             else:
                 return
-        
-
+    
     def catch_fish(self):
         self.usable = False
         self.down = True
         print(f'Рыба {self.new_fish} поймана')
+        from main import get_bag
+        get_bag(self.new_fish)
         self.new_fish = None
 
 class Pop(pg.sprite.Sprite):
@@ -160,6 +161,39 @@ class River:
 class Player:
     pass
 
+class Bag():
+
+    def __init__(self):
+        self.__opened = False
+        self.fish = []
+        self.size = 100
+        self.coords = (-10000, -10000)
+
+    def __str__(self):
+        return f"""В садке рыб: {str(self.__len__())}
+{self.__fish_list()}"""
+    
+    def __fish_list(self):
+        return [fish.name + '\n' for fish in self.fish]
+    
+    def __len__(self):
+        return len(self.fish)
+
+    def put_fish(self, fish):
+        self.fish.append(fish)
+
+    @property
+    def opened(self):
+        return self.__opened
+
+    @opened.setter
+    def opened(self, value):
+        self.__opened = value
+        if self.__opened:
+            self.coords = (200, 200)
+        else:
+            self.coords = (-10000, -10000)
+    
 
 def print_pressed_keys(e):
     print(e, e.event_type, e.name)
