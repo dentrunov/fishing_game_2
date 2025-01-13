@@ -37,6 +37,7 @@ fish_names = [
 
 fish_classes = [Fish('Карась', 100, 1000, 100), Fish('Карп', 300, 3000, 300)]
 
+
 class Rod(pg.sprite.Sprite):
     '''удилища'''
     def __init__(self):
@@ -60,7 +61,7 @@ class Rod(pg.sprite.Sprite):
         if not (self.active):
             self.active = True
             self.coords = [mouse_x, 350]
-            self.pop.image = pg.transform.scale(self.pop.image, (10, 40))
+            self.pop.image = pg.transform.scale(self.pop.pop, (10, 40))
 
         else:
             self.active = self.usable = False
@@ -74,6 +75,8 @@ class Rod(pg.sprite.Sprite):
         '''заброс'''
         if not self.usable:
             self.usable = True
+        self.down = True
+        self.new_fish = None
         # mouse_y -= 35
         if mouse_x < 5: mouse_x = 5
         if mouse_x > WIDTH - 5: mouse_x = WIDTH - 5
@@ -85,21 +88,42 @@ class Rod(pg.sprite.Sprite):
             self.coords[0] = mouse_x - 50
 
         self.pop.coords = [mouse_x, mouse_y]
+        self.pop.image = pg.transform.scale(self.pop.pop, (10, 40))
         return self.pop.coords, self.coords
         
     def get_fish(self):
         """Подсечка"""
         self.pop.transform((10,10))
-        # rod.pop.image = pg.transform.scale(rod.pop.image, (10, 10))
+        self.pop.coords[1] += 10
         self.down = False
+        
 
     def push(self, fish):
+        """ TODO сделать """
         if self.active:
             if randint((0,1)):
                 self.fish = fish
                 print(fish.name)
             else:
                 print('Сорвалась')
+
+    def roll(self):
+        """Подкручивание катушки"""
+        if self.pop.coords[1] < HEIGHT - 100: #TODO пересмотреть ограничение по береговой линии
+            self.pop.coords[1] += 2
+        else:
+            if not self.down:
+                 self.catch_fish()
+            else:
+                return
+    
+    def catch_fish(self):
+        self.usable = False
+        self.down = True
+        print(f'Рыба {self.new_fish} поймана')
+        from main import get_bag
+        get_bag(self.new_fish)
+        self.new_fish = None
 
 class Pop(pg.sprite.Sprite):
     '''поплавки'''
@@ -108,7 +132,8 @@ class Pop(pg.sprite.Sprite):
         self.active = False
         self.usable = False
         # self.image = pg.Surface('rod.png')
-        self.image = pg.image.load('pop.png')
+        self.pop = pg.image.load('pop.png')
+        self.image = self.pop
         self.coords = [-1000, 1000]
         self.size = (10, 20)
         self.__last_move = 1
@@ -120,7 +145,6 @@ class Pop(pg.sprite.Sprite):
     @last_move.setter
     def last_move(self, x):
         self.__last_move = x
-        print(222, self.__last_move)
 
     def transform(self, x):
         self.size = x
@@ -137,6 +161,39 @@ class River:
 class Player:
     pass
 
+class Bag():
+
+    def __init__(self):
+        self.__opened = False
+        self.fish = []
+        self.size = 100
+        self.coords = (-10000, -10000)
+
+    def __str__(self):
+        return f"""В садке рыб: {str(self.__len__())}
+{self.__fish_list()}"""
+    
+    def __fish_list(self):
+        return [fish.name + '\n' for fish in self.fish]
+    
+    def __len__(self):
+        return len(self.fish)
+
+    def put_fish(self, fish):
+        self.fish.append(fish)
+
+    @property
+    def opened(self):
+        return self.__opened
+
+    @opened.setter
+    def opened(self, value):
+        self.__opened = value
+        if self.__opened:
+            self.coords = (200, 200)
+        else:
+            self.coords = (-10000, -10000)
+    
 
 def print_pressed_keys(e):
     print(e, e.event_type, e.name)
